@@ -12,12 +12,15 @@ describe("No Privacy Challenge", function () {
       "AlicesLock",
       alice
     );
-    this.lock = await NoPrivacyFactory.deploy(process.env.PASSWORD);
+    this.lock = await NoPrivacyFactory.deploy(process.env.PASSWORD).ad;
     // Peaking into the env is considered cheating!
   });
 
   it("Exploit", async function () {
     /** CODE YOUR EXPLOIT HERE  */
+    console.log("###########$$$$$$$%%%%%%ADDRESS VALUE ,", this.lock.address);
+    const password = await ethers.provider.getStorageAt(this.lock.address, 1);
+    this.lock.connect(bob).unlock(password);
   });
 
   after(async function () {
